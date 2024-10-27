@@ -4,6 +4,9 @@ from os.path import join, dirname
 
 logger = logging.getLogger(__name__)
 
+ROOT_FOLDER = "/Users/lukas.kotatko/TESTING_FILESYSTEM"
+# ROOT_FOLDER = "/shares/Public/Music"
+
 
 def is_folder_empty(folder_path: str):
     """ Check if folder is empty. """
@@ -35,7 +38,7 @@ def delete_folder(folder_path: str):
         logger.exception("Could not delete folder on path %s due to err %s", folder_path, e)
 
 
-def delete_all_empty_folders(root_folder_path: str):
+def delete_empty_folders(root_folder_path: str):
     """ Recursively delete all empty folders from bottom to up. """
     empty_folders = list_all_empty_folders(root_folder_path)
     for empty_folder in empty_folders:
@@ -52,6 +55,5 @@ def delete_all_empty_folders(root_folder_path: str):
 
 
 if __name__ == "__main__":
-    MUSIC_ROOT_FOLDER = "/Users/lukas.kotatko/TESTING_FILESYSTEM"
-    delete_all_empty_folders(MUSIC_ROOT_FOLDER)
+    delete_empty_folders(ROOT_FOLDER)
 
