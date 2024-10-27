@@ -1,6 +1,9 @@
+import subprocess
+from unittest.mock import call
+
 import pytest
 
-from src.split_flac_on_cue import has_one_cue_for_one_flac, get_cue_pathfile, list_cue_files
+from src.split_flac_on_cue import has_one_cue_for_one_flac, get_cue_pathfile, list_cue_files, split_flac_on_cue
 
 
 @pytest.fixture
@@ -37,3 +40,15 @@ def test_get_cue_pathfile(fake_fs):
 def test_list_cue_files(fake_fs):
     res = list_cue_files("/Music")
     assert res == ["/Music/B/Backworld/Isles/song.cue"]
+
+
+def test_split_flac_on_cue_any_order(mocker):
+    cue_files = ['test2.cue', 'test1.cue']
+    mock_run = mocker.patch('subprocess.run')
+
+    split_flac_on_cue(cue_files)
+    expected_calls = [
+        call(['ffcuesplitter', '-i', 'test1.cue'], check=True),
+        call(['ffcuesplitter', '-i', 'test2.cue'], check=True)
+    ]
+    mock_run.assert_has_calls(expected_calls, any_order=True)

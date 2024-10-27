@@ -5,7 +5,11 @@ The original flac will be deleted, as well as the original cue.
 """
 
 import os
+import subprocess
 from os.path import join, isfile
+
+from ffcuesplitter.cuesplitter import FFCueSplitter
+from ffcuesplitter.exceptions import FFMpegError
 
 CUE = ".cue"
 FLAC = ".flac"
@@ -58,6 +62,30 @@ def list_cue_files(folder_path: str):
                     cues.append(get_cue_pathfile(album_path))
 
     return cues
+
+
+def split_flac_on_cue(cue_files: list[str]):
+    """
+    Splits flac files based on cue files.
+    """
+    for cue_file in cue_files:
+        cmd = ["ffcuesplitter", "-i", cue_file]
+        try:
+            subprocess.run(cmd, check=True)
+            print(f"Succesfully splited {cue_file}")
+            print("-" * 50)
+        except subprocess.CalledProcessError as err:
+            raise FFMpegError(f"Splitting cue {cue_file} failed with {err}") from err
+        except FileNotFoundError as err:
+            raise FFMpegError(f"Splitting cue {cue_file} failed with {err}") from err
+        except KeyboardInterrupt as err:
+            msg = "[KeyboardInterrupt] process failed."
+            raise FFMpegError(msg) from err
+
+
+
+
+
 
 
 
