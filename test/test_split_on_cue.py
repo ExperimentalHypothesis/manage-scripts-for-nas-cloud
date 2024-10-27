@@ -1,6 +1,6 @@
 import pytest
 
-from src.split_flac_on_cue import has_one_cue_for_one_flac
+from src.split_flac_on_cue import has_one_cue_for_one_flac, get_cue_pathfile, list_cue_files
 
 
 @pytest.fixture
@@ -18,7 +18,6 @@ def fake_fs(fs):
     fs.create_file("/Music/C/Current93/Faust/song.cue")
 
 
-
 def test_has_one_cue_for_one_flac(fake_fs):
     res = has_one_cue_for_one_flac("/Music/B/Backworld/Isles")
     assert res is True
@@ -30,3 +29,11 @@ def test_has_one_cue_for_one_flac(fake_fs):
     assert res is False
 
 
+def test_get_cue_pathfile(fake_fs):
+    res = get_cue_pathfile("/Music/B/Backworld/Isles")
+    assert res == "/Music/B/Backworld/Isles/song.cue"
+
+
+def test_list_cue_files(fake_fs):
+    res = list_cue_files("/Music")
+    assert res == ["/Music/B/Backworld/Isles/song.cue"]
