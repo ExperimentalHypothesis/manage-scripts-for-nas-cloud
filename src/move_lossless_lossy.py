@@ -69,7 +69,7 @@ def move_albums(albums: list[str], lossless: bool = False, lossy: bool = False):
 
     for src in albums:
         dst = src.replace(MUSIC_DIR, LOSSLESS_DIR) if lossless else src.replace(MUSIC_DIR, LOSSY_DIR)
-        shutil.move(src, dst)
+        # shutil.move(src, dst)
         print(f"moved {src} to {dst}")
 
 
