@@ -7,15 +7,13 @@ Inside these tow will be alphabetical structure as usual.
 import os
 import shutil
 from contextlib import contextmanager
-from os.path import join, isdir, isfile
-
-ROOT_FOLDER = "/Users/lukas.kotatko/TESTING_FILESYSTEM"
+from os.path import join, isfile
 
 LOSSY_ENCODINGS = {"mp3"}
 LOSSLESS_ENCODINGS = {"flac"}
-MUSIC_DIR = "/music"
-LOSSLESS_DIR = "/musick/lossless"
-LOSSY_DIR = "/musick/lossy"
+MUSIC_DIR = "/Music"
+LOSSLESS_DIR = "/Musick/Lossless"
+LOSSY_DIR = "/Musick/Lossy"
 
 
 
@@ -104,3 +102,8 @@ def move_lossy(folder_path: str):
     with encoding(lossy=True) as config:
         lossy_albums = list_albums(folder_path, **config)
         move_albums(lossy_albums, **config)
+
+
+if __name__ == "__main__":
+    ROOT_FOLDER = "/Users/lukas.kotatko/TESTING_FILESYSTEM"
+    list_albums(ROOT_FOLDER, lossless=True, lossy=True)
