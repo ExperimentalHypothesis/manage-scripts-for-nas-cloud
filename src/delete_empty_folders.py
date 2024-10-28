@@ -9,12 +9,16 @@ ROOT_FOLDER = "/Users/lukas.kotatko/TESTING_FILESYSTEM"
 
 
 def is_folder_empty(folder_path: str):
-    """ Check if folder is empty. """
+    """
+    Check if folder is empty.
+    """
     return not os.listdir(folder_path)
 
 
 def list_all_empty_folders(root_folder_path: str):
-    """ Recursively find all empty folders from top to bottom. """
+    """
+    Recursively find all empty folders from top to bottom.
+    """
     empty = []
     for path in os.listdir(root_folder_path):
         full_path = join(root_folder_path, path)
@@ -30,16 +34,20 @@ def list_all_empty_folders(root_folder_path: str):
 
 
 def delete_folder(folder_path: str):
-    """ Delete folder on given path. """
+    """
+    Delete folder on given path.
+    """
     try:
         os.rmdir(folder_path)
         logger.warning(f"Deleted folder on path {folder_path}")
-    except Exception as e:
+    except OSError as e:
         logger.exception("Could not delete folder on path %s due to err %s", folder_path, e)
 
 
 def delete_empty_folders(root_folder_path: str):
-    """ Recursively delete all empty folders from bottom to up. """
+    """
+    Recursively delete all empty folders from bottom to up.
+    """
     empty_folders = list_all_empty_folders(root_folder_path)
     for empty_folder in empty_folders:
         delete_folder(empty_folder)
