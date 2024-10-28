@@ -16,21 +16,16 @@ def has_only_ds_file(folder_path: str) -> bool:
     return os.listdir(folder_path) == [".DS_Store"]
 
 
-def list_all_ds_filepaths(root_folder_path: str):
+def list_all_ds_filepaths(root_folder_path: str) -> list[str]:
     """
     Recursively find all paths to DS_store files from top to bottom.
     """
-    paths = []
-    for path in os.listdir(root_folder_path):
-        full_path = join(root_folder_path, path)
-        if isfile(full_path):
-            continue
-
-        if has_only_ds_file(full_path):
-            paths.append(join(full_path, ".DS_Store"))
-        else:
-            paths.extend(list_all_ds_filepaths(full_path))
-    return paths
+    ds = []
+    for dirpath, dirnames, filenames in os.walk(root_folder_path):
+        for file in filenames:
+            if file.endswith(".DS_Store"):
+                ds.append(join(root_folder_path, dirpath, file))
+    return ds
 
 
 def delete_file(file_path: str):
@@ -45,4 +40,13 @@ def delete_file(file_path: str):
         logger.warning(f"Deleted file on path {file_path}")
     except OSError as e:
         logger.exception("Could not delete file on path %s due to err %s", file_path, e)
+
+
+def delete_all_ds_files(root_folder_path: str):
+    """
+    Delete all DS_store files.
+    """
+    files = list_all_ds_filepaths(root_folder_path)
+    for file in files:
+        delete_file(file)
 
