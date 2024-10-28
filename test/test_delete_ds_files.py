@@ -1,9 +1,12 @@
+import os.path
+
+from contextlib import nullcontext as no_exception
 import pytest
 
-from src.delete_ds_files import list_all_ds_filepaths, has_only_ds_file
+from src.delete_ds_files import list_all_ds_filepaths, has_only_ds_file, delete_file
 
 
-@pytest.fixture # TODO use conftest
+@pytest.fixture  # TODO use conftest
 def fake_fs(fs):
     # Empty
     fs.create_dir("/Music/A/Alio Die")
@@ -34,3 +37,18 @@ def test_has_only_ds_file(fake_fs, folder_path, expected):
 def test_list_all_ds_filepaths(fake_fs):
     res = list_all_ds_filepaths("/Music")
     assert res == ["/Music/B/Backworld/Isles/.DS_Store"]
+
+
+def test_delete_file_success(fake_fs):
+    assert os.path.exists("/Music/B/Backworld/Isles/.DS_Store")
+    delete_file("/Music/B/Backworld/Isles/.DS_Store")
+    assert not os.path.exists("/Music/B/Backworld/Isles/.DS_Store")
+
+
+def test_delete_file_exception(fake_fs):
+    assert os.path.exists("/Music/C/Current93/Faust/song1.flac")
+    with pytest.raises(RuntimeError) as err:
+        delete_file("/Music/C/Current93/Faust/song1.flac")
+
+    assert "Filepath /Music/C/Current93/Faust/song1.flac does not contain DS_Store file" == str(err.value)
+    assert os.path.exists("/Music/C/Current93/Faust/song1.flac")

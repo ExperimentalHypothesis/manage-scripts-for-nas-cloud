@@ -37,6 +37,9 @@ def delete_file(file_path: str):
     """
     Delete DS_store file on given path.
     """
+    if not file_path.endswith(".DS_Store"):
+        raise RuntimeError(f"Filepath {file_path} does not contain DS_Store file")
+
     try:
         os.remove(file_path)
         logger.warning(f"Deleted file on path {file_path}")
