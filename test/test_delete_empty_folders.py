@@ -3,8 +3,6 @@ import os.path
 
 import pytest
 
-from contextlib import nullcontext
-
 from src.delete_empty_folders import is_folder_empty, list_all_empty_folders, delete_folder, delete_empty_folders
 
 
@@ -25,21 +23,15 @@ def fake_fs(fs):
     fs.create_file("/Music/C/Current93/Faust/song1.flac")
 
 
-def test_is_empty(fake_fs):
-    res = is_folder_empty("/Music/A/Alio Die")
-    assert res is True
-
-    res = is_folder_empty("/Music/Z")
-    assert res is True
-
-    res = is_folder_empty("/Music/A")
-    assert res is False
-
-    res = is_folder_empty("/Music/B/Backworld/Isles")
-    assert res is False
-
-    res = is_folder_empty("Music/C/Current93/Faust")
-    assert res is False
+@pytest.mark.parametrize("folder_path, expected",
+                         [
+                             ("/Music/A/Alio Die", True),
+                             ("/Music/Z", True),
+                             ("/Music/B/Backworld/Isles", False),
+                             ("Music/C/Current93/Faust", False),
+                         ])
+def test_is_empty(fake_fs, folder_path, expected):
+    assert is_folder_empty(folder_path) is expected
 
 
 def test_list_all_empty_folders(fake_fs):
@@ -79,8 +71,8 @@ def test_delete_folder_exception(fake_fs, folder_path, caplog):
 
 
 def test_delete_empty_folders(fake_fs):
-    assert os.path.exists("/Music/A/Alio Die")  # will be deleted all up to /Music
-    assert os.path.exists("/Music/Z")  # will be deleted all up to /Music
+    assert os.path.exists("/Music/A/Alio Die")
+    assert os.path.exists("/Music/Z")
 
     delete_empty_folders("/Music")
 

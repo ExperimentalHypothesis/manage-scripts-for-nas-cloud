@@ -1,11 +1,17 @@
+"""
+This module is responsible for deleting empty folders.
+It should be run after 'delete_ds_files' module.
+The final state should be such that only folders with audio files are present.
+"""
+
+
 import os
 import logging
-from os.path import join, dirname
+from os.path import join, dirname, isfile
 
 logger = logging.getLogger(__name__)
 
 ROOT_FOLDER = "/Users/lukas.kotatko/TESTING_FILESYSTEM"
-# ROOT_FOLDER = "/shares/Public/Music"
 
 
 def is_folder_empty(folder_path: str):
@@ -19,18 +25,17 @@ def list_all_empty_folders(root_folder_path: str):
     """
     Recursively find all empty folders from top to bottom.
     """
-    empty = []
+    paths = []
     for path in os.listdir(root_folder_path):
         full_path = join(root_folder_path, path)
-        if os.path.isfile(full_path):
+        if isfile(full_path):
             continue
 
         if is_folder_empty(full_path):
-            full_path = join(root_folder_path, path)
-            empty.append(full_path)
+            paths.append(full_path)
         else:
-            empty.extend(list_all_empty_folders(full_path))
-    return empty
+            paths.extend(list_all_empty_folders(full_path))
+    return paths
 
 
 def delete_folder(folder_path: str):
@@ -64,4 +69,3 @@ def delete_empty_folders(root_folder_path: str):
 
 if __name__ == "__main__":
     delete_empty_folders(ROOT_FOLDER)
-
