@@ -9,8 +9,8 @@ import shutil
 from contextlib import contextmanager
 from os.path import join, isfile
 
-LOSSY_ENCODINGS = {"mp3"}
-LOSSLESS_ENCODINGS = {"flac"}
+LOSSY_ENCODINGS = {"mp3", "mp4", "ogg", "m4a"}
+LOSSLESS_ENCODINGS = {"flac", "ape", "wma"}
 MUSIC_DIR = "/Music"
 LOSSLESS_DIR = "/Musick/Lossless"
 LOSSY_DIR = "/Musick/Lossy"

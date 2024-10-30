@@ -11,7 +11,6 @@ from os.path import join, dirname, isfile
 
 logger = logging.getLogger(__name__)
 
-ROOT_FOLDER = "/Users/lukas.kotatko/TESTING_FILESYSTEM"
 
 
 def is_folder_empty(folder_path: str):
@@ -68,4 +67,6 @@ def delete_empty_folders(root_folder_path: str):
 
 
 if __name__ == "__main__":
+    ROOT_FOLDER = "/Users/lukas.kotatko/TESTING_FILESYSTEM"
+
     delete_empty_folders(ROOT_FOLDER)

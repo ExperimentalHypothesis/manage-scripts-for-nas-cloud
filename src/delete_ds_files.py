@@ -6,6 +6,8 @@ import logging
 import os
 from os.path import join, isfile
 
+from constants import ROOT_FOLDER
+
 logger = logging.getLogger(__name__)
 
 
@@ -50,3 +52,6 @@ def delete_all_ds_files(root_folder_path: str):
     for file in files:
         delete_file(file)
 
+
+if __name__ == "__main__":
+    delete_all_ds_files(ROOT_FOLDER)

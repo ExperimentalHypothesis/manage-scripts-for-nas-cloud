@@ -5,8 +5,6 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-ROOT_FOLDER = "/Users/lukas.kotatko/TESTING_FILESYSTEM"
-# ROOT_FOLDER = "/shares/Public/Music"
 
 
 def get_files_with_same_size(root_folder: str) -> dict[int, list[str]]:
@@ -55,4 +53,7 @@ def find_duplicates(root_folder_path: str):
 
 
 if __name__ == "__main__":
+    ROOT_FOLDER = "/Users/lukas.kotatko/TESTING_FILESYSTEM"
+    # ROOT_FOLDER = "/shares/Public/Music"
+
     find_duplicates(ROOT_FOLDER)
