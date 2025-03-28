@@ -1,8 +1,9 @@
 """
 This module is responsible for deleting folders where no audio files are present.
 It can be folders with some log, pictures, cue files and other crap.
-The point is that no audio is present, to keeping such folder is useless.
+The point is that if no audio is present, keeping such folder is useless.
 """
+
 import os
 from os.path import join
 
